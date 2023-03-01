@@ -8,6 +8,9 @@ User = get_user_model()
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Item(models.Model):
     user = models.ForeignKey(User, verbose_name='Поьзователь', on_delete=models.CASCADE, related_name='items')

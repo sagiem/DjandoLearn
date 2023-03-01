@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView, ListView
 from django.utils import timezone
 from core import models
+from core import filters
 
 
 class Index(TemplateView):
@@ -28,20 +29,25 @@ class Person(ListView):
 #     response = render(request, "core/index.html", context={'person': person})
 #     return response
 
-def persons(request):
-    object_list = []
-    for p in models.Person.objects.all():
-        object_list.append({
-            'id': p.id,
-            'name': p.name,
-        })
-    return JsonResponse({'objects' : object_list})
+# def persons(request):
+#     object_list = []
+#     for p in models.Person.objects.all():
+#         object_list.append({
+#             'id': p.id,
+#             'name': p.name,
+#         })
+#     return JsonResponse({'objects' : object_list})
 
-# def person(request, id):
-#     p = models.Person.objects.get(id=id)
-#     detal = {
-#         'id': p.id,
-#         'name': p.name,
-#         'phone': p.phone
-#     }
-#     return JsonResponse(detal)
+def person(request, id):
+    p = models.Person.objects.get(id=id)
+    detal = {
+        'id': p.id,
+        'name': p.name,
+        'phone': p.phone
+    }
+    return JsonResponse(detal)
+
+def tags(request):
+    f = filters.Tag(request.GET, queryset=models.Tag.objects.all())
+
+    return  JsonResponse({'result': list(f.qs.values())})
