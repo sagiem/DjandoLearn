@@ -7,5 +7,5 @@ class Tag(django_filters.filterset.FilterSet):
     term = django_filters.CharFilter(field_name='name', lookup_expr='icontains')
     class Meta:
         models = models.Tag
-        filter = '__all__'
+        fields = '__all__'
 
