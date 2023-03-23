@@ -20,3 +20,9 @@ class tagSearch(serializers.Serializer):
 
     def validate(self, attrs):
         return attrs
+
+
+class Item(serializers.ModelSerializer):
+    class Meta:
+        model = models.Item
+        exclude = ('user', )
