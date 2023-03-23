@@ -1,6 +1,31 @@
 from rest_framework import serializers
 from core import models
 
+
+class RegisteUser(serializers.Serializer):
+    usename = serializers.CharField()
+    password = serializers.CharField(min_length=8)
+
+    def validate_username(self, value):
+        if models.User.objects.filter(username=value).exists():
+            raise serializers.ValidationError('Пользователь с таким именем уже есть')
+        return value
+
+class LoginUser(serializers.Serializer):
+    usename = serializers.CharField()
+    password = serializers.CharField(min_length=8)
+
+    def validate_username(self, value):
+        if not models.User.objects.filter(username=value).exists():
+            raise serializers.ValidationError('Пользователь с таким именем не найден')
+        return value
+
+    def validate(self, attrs):
+        user = models.User.objects.get(usename=attrs['username'])
+        if not user.check_password(attrs['password']):
+            raise serializers.ValidationError({'password': 'Не верный пароль'})
+        return attrs
+
 class Tag(serializers.ModelSerializer):
     display  = serializers.SerializerMethodField()
     class Meta:
@@ -23,6 +48,7 @@ class tagSearch(serializers.Serializer):
 
 
 class Item(serializers.ModelSerializer):
+    tags = Tag(many=True)
     class Meta:
         model = models.Item
         exclude = ('user', )
