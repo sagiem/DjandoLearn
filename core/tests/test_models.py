@@ -16,3 +16,4 @@ class Tag(TestCase):
             self.tag.name,
             'Строковые кредставления должны браться из атрибута name'
         )
+

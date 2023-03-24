@@ -23,7 +23,7 @@ class RegisterUser(GenericAPIView):
             password=serializer.validated_data['password']
         )
         token = Token.objects.create(user=user)
-        return Response({'token': token.key})
+        return Response({'token': token.key}, status=201)
 
 
 class LoginUser(GenericAPIView):

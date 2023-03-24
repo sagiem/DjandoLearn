@@ -2,9 +2,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 import core.views
 
+app_name = 'core'
+
 urlpatterns = [
-    path('login/', core.views.LoginUser.as_view(), name='login'),
-    path('register/', core.views.RegisterUser.as_view(), name='register'),
+    path('login/', core.views.LoginUser.as_view(), name='user_login'),
+    path('register/', core.views.RegisterUser.as_view(), name='user_register'),
 ]
 
 router = DefaultRouter()
