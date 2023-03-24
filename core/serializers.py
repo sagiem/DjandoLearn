@@ -3,7 +3,7 @@ from core import models
 
 
 class RegisteUser(serializers.Serializer):
-    usename = serializers.CharField()
+    username = serializers.CharField()
     password = serializers.CharField(min_length=8)
 
     def validate_username(self, value):
@@ -12,7 +12,7 @@ class RegisteUser(serializers.Serializer):
         return value
 
 class LoginUser(serializers.Serializer):
-    usename = serializers.CharField()
+    username = serializers.CharField()
     password = serializers.CharField(min_length=8)
 
     def validate_username(self, value):
@@ -21,7 +21,7 @@ class LoginUser(serializers.Serializer):
         return value
 
     def validate(self, attrs):
-        user = models.User.objects.get(usename=attrs['username'])
+        user = models.User.objects.get(username=attrs['username'])
         if not user.check_password(attrs['password']):
             raise serializers.ValidationError({'password': 'Не верный пароль'})
         return attrs

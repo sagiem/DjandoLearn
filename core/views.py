@@ -15,7 +15,7 @@ class RegisterUser(GenericAPIView):
     queryset = models.User
     serializer_class = serializers.RegisteUser
 
-    def __pos__(self, request):
+    def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = models.User.objects.create_user(
@@ -23,18 +23,17 @@ class RegisterUser(GenericAPIView):
             password=serializer.validated_data['password']
         )
         token = Token.objects.create(user=user)
-        return Response
-
+        return Response({'token': token.key})
 
 
 class LoginUser(GenericAPIView):
     queryset = models.User
     serializer_class = serializers.LoginUser
 
-    def __pos__(self, request):
+    def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        token = Token.objects.get(user_username=serializer.validated_data['username'])
+        token = Token.objects.get(user__username=serializer.validated_data['username'])
         return Response({'token': token.key})
 
 
