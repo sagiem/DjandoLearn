@@ -4,3 +4,4 @@ django_filter==22.1
 djangorestframework==3.14
 django-rest-swagger==2.2.0
 factory-boy==3.2.1
+coverage==7.2.2
